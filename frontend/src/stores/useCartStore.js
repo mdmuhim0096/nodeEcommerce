@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import axios from "../lib/axios";
 import { toast } from "react-hot-toast";
-import { useUserStore } from "../../../../../mern-ecommerce-master/mern-ecommerce-master/frontend/src/stores/useUserStore";
 
 const loginPage = () => {
 	location.href = "/login"
