@@ -7,7 +7,8 @@ import { mongoDbConnect } from "./lib/db.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-dotenv.config()
+dotenv.config({path: "../.env"});
+
 const app = express();
 app.use(express.json());
 
@@ -17,7 +18,6 @@ import cartRouter from "./routes/cart.router.js";
 import cuponsRouter from "./routes/cupon.router.js";
 import paymentRouter from "./routes/payment.router.js";
 import anlyticsRouter from "./routes/anlytics.router.js";
-
 
 app.use(cookieParser());
 app.use(cors({ credentials: true }));
