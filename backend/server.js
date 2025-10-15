@@ -30,9 +30,11 @@ app.use("/api/coupons", cuponsRouter);
 app.use("/api/payment", paymentRouter);
 app.use("/api/analytics", anlyticsRouter);
 
+console.log(process.env.CLIENT_URL);
+
 const ___dirname = path.resolve();
 
-if(process.env.NODE_ENV === "production"){
+if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(___dirname, "/frontend/dist")));
     app.get("/*", (req, res) => {
         res.sendFile(path.join(___dirname, "frontend", "dist", "index.html"))
