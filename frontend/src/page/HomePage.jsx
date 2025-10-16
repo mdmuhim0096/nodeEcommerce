@@ -11,7 +11,8 @@ const HomePage = () => {
   useEffect(() => {
     checkAuth();
     fetchFeaturedProducts()
-  }, [checkAuth, fetchFeaturedProducts])
+    document.title = "home";
+  }, [checkAuth, fetchFeaturedProducts]);
 
   const categories = [
     { href: "/jeans", name: "Jeans", imageUrl: "./jeans.jpg" },

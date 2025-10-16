@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Loader, Lock, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import { useUserStore } from '../stores/useUserStore';
 import { Link } from 'react-router-dom';
-import Confetti from "react-confetti"
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +10,9 @@ const LoginPage = () => {
     password: "",
   });
 
+  useEffect(() => {
+    document.title = "login"
+  }, [])
 
   const fields = [
     {
@@ -38,14 +40,6 @@ const LoginPage = () => {
 
   return (
     <div className='flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8'>
-      <Confetti
-        width={window.innerWidth}
-        height={window.innerHeight}
-        gravity={0.1}
-        style={{ zIndex: 99 }}
-        numberOfPieces={10000}
-        recycle={false}
-      />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

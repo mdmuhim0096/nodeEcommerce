@@ -19,6 +19,7 @@ const AdminPanel = () => {
 
     useEffect(() => {
         fetchAllProducts();
+        document.title = "home/admin panel";
     }, [])
 
     return (
@@ -31,7 +32,7 @@ const AdminPanel = () => {
                     transition={{ duration: 0.8 }}>
                     Admin Dashboard
                 </motion.h1>
-        
+
                 <div className='flex justify-center mb-8'>
                     {tabs.map((tab) => (
                         <button

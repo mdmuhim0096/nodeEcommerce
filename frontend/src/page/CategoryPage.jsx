@@ -11,6 +11,7 @@ const CategoryPage = () => {
 
     useEffect(() => {
         fetchProductsByCategory(category);
+        document.title = "home/" + category;
     }, [category]);
 
 
@@ -37,10 +38,10 @@ const CategoryPage = () => {
                             No products found
                         </h2>
                     )}
-                    
-					{products?.map((product) => (
-						<ProductCard key={product._id} product={product} />
-					))}
+
+                    {products?.map((product) => (
+                        <ProductCard key={product._id} product={product} />
+                    ))}
                 </motion.div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Lock, User, Mail, Loader } from "lucide-react";
 import { motion } from "framer-motion";
 import { useUserStore } from '../stores/useUserStore';
@@ -11,6 +11,10 @@ const SignupPage = () => {
     password: "",
     confirmPassword: ""
   });
+
+  useEffect(() => {
+    document.title = "sign-up"
+  }, [])
 
   const fields = [
     {
