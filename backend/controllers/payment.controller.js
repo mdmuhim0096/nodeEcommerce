@@ -45,13 +45,13 @@ export const createCheckoutSession = async (req, res) => {
                 discounts = [{ coupon: stripeCouponId }];
             }
         }
-
+        const url = "https://nodeecommerce-1-n9rd.onrender.com"
         const session = await Stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             line_items,
             mode: "payment",
-            success_url: `${process.env.CLIENT_URL}/purchase-success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${process.env.CLIENT_URL}/purchase-cancel`,
+            success_url: `${url}/purchase-success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${url}/purchase-cancel`,
             discounts,
             metadata: {
                 userId: req.user._id.toString(),
