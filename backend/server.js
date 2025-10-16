@@ -1,45 +1,100 @@
+// import express from "express";
+// import dotenv from "dotenv";
+// import morgan from "morgan";
+// import path from "path";
+
+// import { mongoDbConnect } from "./lib/db.js";
+// import cookieParser from "cookie-parser";
+// import cors from "cors";
+
+// dotenv.config({path: "../.env"});
+
+// const app = express();
+// app.use(express.json());
+
+// import authRouter from "./routes/auth.router.js";
+// import productRouter from "./routes/product.router.js"
+// import cartRouter from "./routes/cart.router.js";
+// import cuponsRouter from "./routes/cupon.router.js";
+// import paymentRouter from "./routes/payment.router.js";
+// import anlyticsRouter from "./routes/anlytics.router.js";
+
+// app.use(cookieParser());
+// app.use(cors({ credentials: true }));
+// app.use(morgan("dev"));
+
+// app.use("/api/auth", authRouter);
+// app.use("/api/products", productRouter);
+// app.use("/api/cart", cartRouter);
+// app.use("/api/coupons", cuponsRouter);
+// app.use("/api/payment", paymentRouter);
+// app.use("/api/analytics", anlyticsRouter);
+
+// console.log(process.env.CLIENT_URL);
+
+// const ___dirname = path.resolve();
+
+// if (process.env.NODE_ENV === "production") {
+//     app.use(express.static(path.join(___dirname, "/frontend/dist")));
+//     app.get("/.*/", (req, res) => {
+//         res.sendFile(path.join(___dirname, "frontend", "dist", "index.html"))
+//     })
+// }
+
+// const PORT = process.env.PORT;
+// app.listen(PORT, () => { console.log(`http://localhost:${PORT}`); mongoDbConnect(); });
+
 import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import path from "path";
+import { fileURLToPath } from "url";
 
 import { mongoDbConnect } from "./lib/db.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-dotenv.config({path: "../.env"});
+// ✅ Load env once — no need for "../.env"
+dotenv.config();
 
 const app = express();
 app.use(express.json());
-
-import authRouter from "./routes/auth.router.js";
-import productRouter from "./routes/product.router.js"
-import cartRouter from "./routes/cart.router.js";
-import cuponsRouter from "./routes/cupon.router.js";
-import paymentRouter from "./routes/payment.router.js";
-import anlyticsRouter from "./routes/anlytics.router.js";
-
 app.use(cookieParser());
 app.use(cors({ credentials: true }));
 app.use(morgan("dev"));
+
+// ✅ Routers
+import authRouter from "./routes/auth.router.js";
+import productRouter from "./routes/product.router.js";
+import cartRouter from "./routes/cart.router.js";
+import cuponsRouter from "./routes/cupon.router.js";
+import paymentRouter from "./routes/payment.router.js";
+import analyticsRouter from "./routes/anlytics.router.js";
 
 app.use("/api/auth", authRouter);
 app.use("/api/products", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/coupons", cuponsRouter);
 app.use("/api/payment", paymentRouter);
-app.use("/api/analytics", anlyticsRouter);
+app.use("/api/analytics", analyticsRouter);
 
-console.log(process.env.CLIENT_URL);
+// ✅ Directory helpers
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const ___dirname = path.resolve();
-
+// ✅ Serve frontend only in production
 if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(___dirname, "/frontend/dist")));
-    app.get("/.*/", (req, res) => {
-        res.sendFile(path.join(___dirname, "frontend", "dist", "index.html"))
-    })
+    app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+    // ✅ Express 5+ fix: use regex literal instead of string
+    app.get(/.*/, (req, res) => {
+        res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
+    });
 }
 
-const PORT = process.env.PORT;
-app.listen(PORT, () => { console.log(`http://localhost:${PORT}`); mongoDbConnect(); });
+const PORT = process.env.PORT || 10000;
+
+app.listen(PORT, () => {
+    console.log(`✅ Server running on port ${PORT}`);
+    mongoDbConnect();
+});
